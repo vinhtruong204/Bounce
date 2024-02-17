@@ -36,7 +36,7 @@ public class Player extends GameObject {
         loadAnimations();
         aniTick = 0;
         aniIndex = 0;
-        aniSpeed = 4; // 15 animation frames per second
+        aniSpeed = 10; // 15 animation frames per second
     }
 
     private void loadAnimations() {
@@ -91,10 +91,10 @@ public class Player extends GameObject {
     public void render(Graphics g) {
         g.drawImage(
                 animations[0][aniIndex],
-                this.getPosition().getX(),
-                this.getPosition().getY(),
-                this.getSize().getWidth(),
-                this.getSize().getHeight(),
+                position.getX(),
+                position.getY(),
+                size.getWidth(),
+                size.getHeight(),
                 null);
         updateAnimationTick();
     }

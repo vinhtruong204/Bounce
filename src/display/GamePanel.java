@@ -20,12 +20,10 @@ public class GamePanel extends JPanel implements Runnable {
     private int fps, ups;
 
     private KeyHandler keyHandler;
-    private Renderer renderer;
     private Game game;
 
     public GamePanel(int width, int height) {
         keyHandler = new KeyHandler();
-        renderer = new Renderer();
         game = new Game(this.keyHandler);
         this.setPreferredSize(new Dimension(width, height));
         this.setFocusable(true);
@@ -81,7 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        renderer.render(g, game);
+        game.render(g);
         
         g.dispose();
         fps++;

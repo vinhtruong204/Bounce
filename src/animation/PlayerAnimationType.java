@@ -1,4 +1,4 @@
-package animation_manager.player;
+package animation;
 
 public class PlayerAnimationType {
     public static final int IDLE = 0;

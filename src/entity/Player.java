@@ -3,6 +3,7 @@ package entity;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import animation_manager.player.PlayerAnimationType;
 import controller.PlayerController;
 import core.Position;
 import core.Size;
@@ -18,13 +19,14 @@ public class Player extends GameObject {
     private int speed;
 
     private BufferedImage[][] animations;
+    private int aniType;
     private int aniTick, aniIndex, aniSpeed;
 
     public Player(KeyHandler keyHandler) {
         // Load image and set size
         super.loadImage("img/1-Player-Bomb Guy.png");
         position = new Position(0, 0);
-        size = new Size(PLAYER_WIDTH, PLAYER_HEIGHT);
+        size = new Size(PLAYER_WIDTH * 3, PLAYER_HEIGHT * 3);
 
         // Initialize controller
         controller = new PlayerController(keyHandler);
@@ -36,7 +38,8 @@ public class Player extends GameObject {
         loadAnimations();
         aniTick = 0;
         aniIndex = 0;
-        aniSpeed = 10; // 15 animation frames per second
+        aniSpeed = 4; // 15 animation frames per second
+        aniType = PlayerAnimationType.IDLE;
     }
 
     private void loadAnimations() {
@@ -53,7 +56,7 @@ public class Player extends GameObject {
             aniTick = 0;
             aniIndex++;
 
-            if (aniIndex >= 26)
+            if (aniIndex >= PlayerAnimationType.getSpriteAmount(aniType))
                 aniIndex = 0;
         }
     }
@@ -61,6 +64,9 @@ public class Player extends GameObject {
     private void updateVelocity() {
         if (controller.isPressedUp()) {
             velocity.setY(-speed);
+            aniType = PlayerAnimationType.JUMP;
+            aniTick = 0;
+            aniIndex = 0;
         }
 
         if (controller.isPressedDown()) {
@@ -69,10 +75,17 @@ public class Player extends GameObject {
 
         if (controller.isPressedRight()) {
             velocity.setX(speed);
+            aniType = PlayerAnimationType.RUN;
+            aniSpeed = 3;
+            aniTick = 0;
+            aniIndex = 0;
         }
 
         if (controller.isPressedLeft()) {
             velocity.setX(-speed);
+            aniType = PlayerAnimationType.IDLE;
+            aniTick = 0;
+            aniIndex = 0;
         }
     }
 
@@ -90,7 +103,7 @@ public class Player extends GameObject {
     @Override
     public void render(Graphics g) {
         g.drawImage(
-                animations[0][aniIndex],
+                animations[aniType][aniIndex],
                 position.getX(),
                 position.getY(),
                 size.getWidth(),

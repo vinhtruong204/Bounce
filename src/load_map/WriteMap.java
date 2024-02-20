@@ -4,11 +4,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.BufferedWriter;
 
-public class WriteMatrix {
+public class WriteMap {
 
     public static void main(String[] args) throws IOException {
         // Replace this with your actual matrix
-        int[][] matrix = new int[12][18];
+        int[][] matrix = new int[12][36];
 
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 18; j++) {

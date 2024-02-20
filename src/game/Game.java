@@ -4,15 +4,15 @@ import java.awt.Graphics;
 
 import entity.Player;
 import input.KeyHandler;
-import levels.Map;
+import levels.LevelManager;
 
 public class Game {
     private Player player;
-    private Map map;
+    private LevelManager map;
 
     public Game(KeyHandler keyHandler) {
-        player = new Player(keyHandler);
-        map = new Map();
+        map = new LevelManager();
+        player = new Player(keyHandler, map.getMap());
     }
 
     public void update() {

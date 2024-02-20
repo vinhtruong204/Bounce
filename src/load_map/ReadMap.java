@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class ReadMatrix {
+public class ReadMap {
     public static int[][] getMapMatrix() {
         String fileName = "map.txt"; // Replace with the actual file name
 

@@ -2,30 +2,45 @@ package game;
 
 import java.awt.Graphics;
 
-import entity.Player;
+import gamestate.GameState;
+import gamestate.Menu;
+import gamestate.Playing;
 import input.KeyHandler;
-import levels.LevelManager;
 
 public class Game {
-    private Player player;
-    private LevelManager map;
+    private Playing playing;
+    private Menu menu;
 
     public Game(KeyHandler keyHandler) {
-        map = new LevelManager();
-        player = new Player(keyHandler, map.getMap());
+        playing = new Playing(keyHandler);
+        menu = new Menu(keyHandler);
     }
 
     public void update() {
-        player.update();
+        switch (GameState.state) {
+            case MENU:
+                menu.update();
+                break;
+            case PLAYING:
+                playing.update();
+                break;
+            default:
+                break;
+        }
+
     }
 
     public void render(Graphics g) {
-        map.render(g);
-        player.render(g);
-    }
-
-    public Player getPlayer() {
-        return player;
+        switch (GameState.state) {
+            case MENU:
+                menu.render(g);
+                break;
+            case PLAYING:
+                playing.render(g);
+                break;
+            default:
+                break;
+        }
     }
 
 }

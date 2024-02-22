@@ -27,6 +27,7 @@ public class Player extends GameObject {
 
     private int[][] map;
     private Rectangle hitBox;
+    private boolean onGround;
 
     public Player(KeyHandler keyHandler, int[][] map) {
         position = new Position(0, 0);
@@ -43,8 +44,9 @@ public class Player extends GameObject {
         // Set animation sprite sheet
         animations = new BufferedImage[6][26];
         loadAnimations();
-        aniSpeed = 3; // 15 animation frames per second
+        aniSpeed = 3; // 20  animation frames per second
         aniType = PlayerAnimationType.IDLE;
+        onGround = false;
     }
 
     private void loadAnimations() {
@@ -80,8 +82,11 @@ public class Player extends GameObject {
 
     private void updatePosition() {
         moving = false;
+        // Reset velocity
+        velocity = new Vector2D(0, 5);
 
         if (controller.isPressedUp()) {
+            onGround = false;
             velocity.setY(-speed);
         }
 
@@ -91,13 +96,17 @@ public class Player extends GameObject {
 
         if (controller.isPressedRight() && !controller.isPressedLeft() && !controller.isPressedDown()) {
             velocity.setX(speed);
+            velocity.setY(0);
             moving = true;
         }
 
         if (controller.isPressedLeft() && !controller.isPressedRight() && !controller.isPressedDown()) {
             velocity.setX(-speed);
+            velocity.setY(0);
             moving = true;
         }
+
+        //System.out.println(velocity.getX() + " " + velocity.getY());
 
         Position newPos = new Position(position.getX() + velocity.getX(), position.getY() + velocity.getY());
         Rectangle newHitbox = new Rectangle(newPos.getX(), newPos.getY(), size.getWidth(), size.getHeight());
@@ -107,8 +116,7 @@ public class Player extends GameObject {
             position = new Position(position.getX() + velocity.getX(), position.getY() + velocity.getY());
             hitBox = new Rectangle(position.getX(), position.getY(), size.getWidth(), size.getHeight());
         }
-        // Reset velocity
-        velocity = new Vector2D(0, 0);
+
     }
 
     private boolean canMove(Rectangle newHitbox) {
@@ -148,6 +156,7 @@ public class Player extends GameObject {
         } else if (topA > bottomB || bottomA < topB) {
             return false;
         }
+        onGround = bottomA > bottomB ? true : false;
         return true;
     }
 
